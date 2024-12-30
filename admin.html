@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة إدارة المحتوى</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">لوحة إدارة المحتوى</h1>
+    <form id="upload-form" enctype="multipart/form-data" class="mb-5">
+      <div class="mb-3">
+        <label for="name" class="form-label">اسم المحتوى</label>
+        <input type="text" id="name" name="name" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">الوصف</label>
+        <textarea id="description" name="description" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">الصورة</label>
+        <input type="file" id="image" name="image" class="form-control" accept="image/*" required>
+      </div>
+      <div class="mb-3">
+        <label for="video" class="form-label">الفيديو</label>
+        <input type="file" id="video" name="video" class="form-control" accept="video/*" required>
+      </div>
+      <button type="submit" class="btn btn-primary">رفع</button>
+    </form>
+    <h2>المحتوى المضاف</h2>
+    <div id="content-list" class="row"></div>
+  </div>
+
+  <script>
+    document.getElementById('upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const response = await fetch('/api/content', { method: 'POST', body: formData });
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message);
+        loadContent();
+      } else {
+        alert('حدث خطأ أثناء الإضافة');
+      }
+    });
+
+    async function loadContent() {
+      const response = await fetch('/api/content');
+      const data = await response.json();
+      const contentList = document.getElementById('content-list');
+      contentList.innerHTML = '';
+      data.forEach(item => {
+        const card = `
+          <div class="col-md-4">
+            <div class="card">
+              <img src="${item.image}" class="card-img-top" alt="${item.name}">
+              <div class="card-body">
+                <h5 class="card-title">${item.name}</h5>
+                <p class="card-text">${item.description}</p>
+                <button class="btn btn-danger" onclick="deleteContent('${item._id}')">حذف</button>
+              </div>
+            </div>
+          </div>`;
+        contentList.innerHTML += card;
+      });
+    }
+
+    async function deleteContent(id) {
+      const response = await fetch(`/api/content/${id}`, { method: 'DELETE' });
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message);
+        loadContent();
+      } else {
+        alert('حدث خطأ أثناء الحذف');
+      }
+    }
+
+    loadContent();
+  </script>
+</body>
+</html>

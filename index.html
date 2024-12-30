@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع أنمي ومانجا</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>موقع أنمي ومانجا</h1>
+        <div class="navigation-container">
+            <nav>
+                <a href="#anime-section">قسم الأنمي</a>
+                <a href="#manga-section">قسم المانجا</a>
+                <a href="#contact">اتصل بنا</a>
+            </nav>
+            <div class="search-container">
+                <input type="text" placeholder="ابحث عن أنمي أو مانجا..." id="search-bar">
+                <div class="suggestions" id="suggestions-box"></div>
+            </div>
+        </div>
+    </header>
+
+    <div id="content">
+        <div id="anime-section">
+            <h2 style="text-align: center; color: #fff; margin-bottom: 20px;">أحدث الأنمي</h2>
+            <div class="anime-container"></div>
+        </div>
+
+        <div id="manga-section">
+            <h2 style="text-align: center; color: #fff; margin-bottom: 20px;">أحدث المانجا</h2>
+            <div class="manga-container"></div>
+        </div>
+    </div>
+
+    <footer id="contact">
+        &copy; 2024 موقع أنمي ومانجا. جميع الحقوق محفوظة.
+    </footer>
+
+    <div class="modal" id="video-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <video controls id="video-player"></video>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
